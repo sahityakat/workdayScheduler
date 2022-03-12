@@ -2,15 +2,19 @@ const dt = new Date();
 document.getElementById("currentDay").innerHTML = dt.toDateString();
 var eventP;
 var saveA;
+var saveDiv;
 
 window.addEventListener('load', (event) => {
     console.log('page is fully loaded'+dt.getHours());
-
+    
     var hourArr = [9,10,11,12,13,14,15,16,17];
 
     for(i=0;i<hourArr.length;i++) {
-        var presentHour;
 
+        storageItemVar = localStorage.getItem(hourArr[i]);
+
+        var presentHour;
+        console.log("hourArr[i]"+hourArr[i]);
         if(hourArr[i] > 12) {
             presentHour = hourArr[i] - 12;
         } else {
@@ -33,9 +37,14 @@ window.addEventListener('load', (event) => {
         var eventDiv = document.createElement("div");
         eventDiv.className = "eventDiv col-9";
     
-        eventP = document.createElement("p");
-        eventP.id = "hour"+presentHour;
-        eventP.textContent = "Text";
+        eventP = document.createElement("textarea");
+        eventP.style.width = "100%";
+        eventP.style.height = "100%";
+        eventP.id = "hour"+hourArr[i];
+        if(storageItemVar != null) {
+            eventP.value = storageItemVar;
+        }
+
        
         if(dt.getHours() == hourArr[i]) {
             eventDiv.style = "background-color: #ff6961";
@@ -47,23 +56,25 @@ window.addEventListener('load', (event) => {
         mainDiv.appendChild(eventDiv);
 
         //Create div for save
-        var saveDiv = document.createElement("div");
+        saveDiv = document.createElement("div");
         saveDiv.className = "btn btn-info btn-lg";
         saveA = document.createElement("button");
         saveA.className = "btn btn-light";
-        saveA.setAttribute("id","saveButton");
-        saveA.textContent = "Save";
+        saveA.innerHTML = "<i class='fa-solid fa-floppy-disk'></i>";
+        saveA.setAttribute("id",hourArr[i]);
 
         saveDiv.appendChild(saveA);
         mainDiv.appendChild(saveDiv);
 
         document.getElementById("schedDiv").appendChild(mainDiv);
+        something(hourArr[i]);
     }
 
-     saveButton.addEventListener("click",function(event){
-         localStorage.setItem(eventP.id,eventP.textContent);
-     })
-
-    // Update background color based on current hour
-    // Show stored values in events
   });
+
+   function something(idVar) {
+        saveA.addEventListener("click",function(){
+           var someVar = document.getElementById("hour"+idVar).value;
+            localStorage.setItem(idVar,someVar);
+       })
+   }

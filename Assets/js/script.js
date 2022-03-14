@@ -1,12 +1,10 @@
 const dt = new Date();
-document.getElementById("currentDay").innerHTML = dt.toDateString();
+document.getElementById("currentDay").innerHTML = moment().format('dddd') + ", " + moment().format("MMM Do YY");
 var eventP;
 var saveA;
 var saveDiv;
 
-window.addEventListener('load', (event) => {
-    console.log('page is fully loaded'+dt.getHours());
-    
+window.addEventListener('load', (event) => { 
     var hourArr = [9,10,11,12,13,14,15,16,17];
 
     for(i=0;i<hourArr.length;i++) {
@@ -46,9 +44,9 @@ window.addEventListener('load', (event) => {
         }
 
        
-        if(dt.getHours() == hourArr[i]) {
+        if(moment().hour() == hourArr[i]) {
             eventDiv.style = "background-color: #ff6961";
-        } else if(dt.getHours() < hourArr[i]) {
+        } else if(moment().hour() < hourArr[i]) {
             eventDiv.style = "background-color: #77dd77";
         } 
         
@@ -58,6 +56,7 @@ window.addEventListener('load', (event) => {
         //Create div for save
         saveDiv = document.createElement("div");
         saveDiv.className = "btn btn-info btn-lg";
+        saveDiv.style.hover
         saveA = document.createElement("button");
         saveA.className = "btn btn-light";
         saveA.innerHTML = "<i class='fa-solid fa-floppy-disk'></i>";
